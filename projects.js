@@ -195,7 +195,7 @@ window.PROJECTS = [
         title: "Custom Game Engine",
         folder: "Custom Game Engine",
         year: "2025",
-        description: "Custom 2D C++ engine with networking and systems architecture.",
+        description: "Custom 2D game engine built with C++ using SDL 3 for rendering.",
         longDescription:
           "Custom 2D game engine made from the ground up, complete with a component-based game object model, client-server networking architecture, event management system, multithreading, and custom memory management. Made in C++ using SDL 3 and SDL 3 Image for rendering. Two demo games were created to demonstrate engine features: Lizard101, a deckbuilding card game, and Journey to nyx, a simple 2D platformer.",
         context: "CSC 481 (Game Engine Foundations)",
