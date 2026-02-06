@@ -11,7 +11,7 @@
   <script src="./projects.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-
+    {TODO: Add ongoing projects, don't crop images, write lenger/better descriptions, add more playable games}
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
 
@@ -144,7 +144,7 @@
       const data = await fetchJson(ghContentsUrl("media"));
       if (!Array.isArray(data)) return null;
 
-      const exact = data.find(x => x?.type === "file" && isPdfName(x.name) && x.name === "Resume 9_16_25 ECF.pdf");
+      const exact = data.find(x => x?.type === "file" && isPdfName(x.name) && x.name === "BenjaminRimonResume.pdf");
       if (exact) return encodePath(exact.path);
 
       const pdf = data.find(x => x?.type === "file" && isPdfName(x.name) && x.name.toLowerCase().includes("resume"));
