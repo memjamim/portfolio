@@ -26,7 +26,7 @@ window.PROJECTS = [
         description:
           "3D game about diving deep below a pool to collect pool toys.",
         longDescription:
-          "3D game about diving deep below a pool to collect pool toys, making friends and fighting eldrich abominations along the way.",
+          "A 3D game about diving deep below a pool to collect pool toys, making friends and fighting eldrich abominations along the way.",
         context: "2026 Triangle Game Jam",
         engine: "Godot",
         scope: "1 Week",
@@ -34,6 +34,60 @@ window.PROJECTS = [
         roles: ["Gameplay Programming", "System Design"],
         skills: ["User Interface Design", "Gameplay Programming", "Level Design", "Economy/Shop/Item Design", "Music & Sound Design", "Gameplay Optimization"],
         features: ["Underwater movement", "Breath & health systems", "In-game shop"],
+        caseStudy: {
+            tagline: "A more in-depth list of features I implemented and what design principles I followed.",
+            designPillars: [
+                { title: "Flow-first gameplay", detail: "Avoid menus that interrupt play, keep decisions in-world for fast, responsive gameplay. Ensure strong feedback and renforce player input." },
+                { title: "Depth feels different", detail: "Underwater movement and visuals should feel heavier, slower, and immersive. Audio should match, heightening player emotions." },
+                { title: "Balanced but meaningful player decisions", detail: "Player decisions should matter, shop items should impact gameplay and be a core driver of the gameplay loop." },
+            ],
+            contributions: [
+                {
+                title: "Land + underwater movement",
+                bullets: [
+                    "Built dual-mode movement: slower velocity & higher momentum underwater to sell weight and inertia.",
+                    "Applied an underwater shader with subtle player bobbing to reinforce the 'submerged' feeling.",
+                    "Included an underwater sprint mechanic to allow for enemy kiting for further skill expression.",
+                ],
+                },
+                {
+                title: "Shop system",
+                bullets: [
+                    "Implemented a shop system, not using a flow-stopping shop UI, instead opting to provide the player with a semi-random selection of 3 items",
+                    "Hooked up each item to real gameplay effects: stats changes, audio, icons, headlamp light, weapon swaps.",
+                    "Balanced prices to encourage variety while keeping player decisions relevant. Items have early accessibility with a scaling cost for stronger upgrades.",
+                ],
+                },
+                {
+                title: "Breath & health systems",
+                bullets: [
+                    "Dynamic breath drain based on depth, underwater sprint drains even faster.",
+                    "Health refills after a delay to promote continued dives instead of 'death-reset' player behavior.",
+                    "Implemented death to respawn at poolside for a quick loop reset and to keep flow uninterrupted.",
+                ],
+                },
+                {
+                title: "World & collaboration",
+                bullets: [
+                    "Greyboxed levels and iterated with 3D artists to keep the space playable, readable and exciting.",
+                ],
+                },
+                {
+                title: "UX, audio, settings",
+                bullets: [
+                    "Designed sampled SFX for strong action feedback and immersion.",
+                    "Built hover-based interaction prompts for interactable items: NPCs, coins, shop items (including cost display), toys, thrown items, etc.",
+                    "Implemented pause and options menus allowing players to adjust keybinds, audio levels, fullscreen, vsync, shadow quality.",
+                ],
+                },
+                {
+                title: "Performance improvements",
+                bullets: [
+                    "Used the Godot profiler to locate and fix performance issues after jam submission.",
+                ],
+                },
+            ]
+            },
         category: "Game Dev",
         featured: true,
         links: { itch: "https://memjamim.itch.io/the-deep-end", video: "https://www.youtube.com/watch?v=Cf8b2OEy0L4" }
