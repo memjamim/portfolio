@@ -579,7 +579,7 @@
                     {/* MEDIA */}
                     <div className="bg-black/20">
                         {/* Hero container: big, but never full-screen */}
-                        <div className="relative w-full h-[42vh] min-h-[240px] max-h-[520px] flex items-center justify-center overflow-hidden bg-zinc-950">
+                        <div className="relative w-full h-[54vh] min-h-[240px] max-h-[520px] flex items-center justify-center overflow-hidden bg-zinc-950">
                         {activeItem?.type === "youtube" ? (
                             <YouTubeEmbed videoUrl={activeItem.url} />
                         ) : (
@@ -590,13 +590,6 @@
                             alt="Project media"
                             />
                         )}
-
-                        {/* Scroll hint overlay */}
-                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0d110d] to-transparent" />
-                        <div className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.25em] text-zinc-300/80">
-                            <span>Scroll</span>
-                            <Icon name="chevron-down" size={14} className="text-zinc-300/80" />
-                        </div>
                         </div>
 
 

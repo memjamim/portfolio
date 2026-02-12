@@ -35,7 +35,7 @@ window.PROJECTS = [
         skills: ["User Interface Design", "Gameplay Programming", "Level Design", "Economy/Shop/Item Design", "Music & Sound Design", "Gameplay Optimization"],
         features: ["Underwater movement", "Breath & health systems", "In-game shop"],
         caseStudy: {
-            tagline: "A more in-depth list of features I implemented and what design principles I followed.",
+            tagline: "An in-depth list of features I implemented and what design principles I followed.",
             designPillars: [
                 { title: "Flow-first gameplay", detail: "Avoid menus that interrupt play, keep decisions in-world for fast, responsive gameplay. Ensure strong feedback and renforce player input." },
                 { title: "Depth feels different", detail: "Underwater movement and visuals should feel heavier, slower, and immersive. Audio should match, heightening player emotions." },
