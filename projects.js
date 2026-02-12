@@ -43,7 +43,7 @@ window.PROJECTS = [
             ],
             contributions: [
                 {
-                title: "Land + underwater movement",
+                title: "Land & underwater movement",
                 bullets: [
                     "Built dual-mode movement: slower velocity & higher momentum underwater to sell weight and inertia.",
                     "Applied an underwater shader with subtle player bobbing to reinforce the 'submerged' feeling.",
@@ -73,7 +73,7 @@ window.PROJECTS = [
                 ],
                 },
                 {
-                title: "UX, audio, settings",
+                title: "UX, audio & settings",
                 bullets: [
                     "Designed sampled SFX for strong action feedback and immersion.",
                     "Built hover-based interaction prompts for interactable items: NPCs, coins, shop items (including cost display), toys, thrown items, etc.",
