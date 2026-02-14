@@ -11,7 +11,7 @@
   <script src="./projects.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
+  <style>   
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap');
 
     body {
@@ -94,7 +94,7 @@
     return new URL(clean, ASSET_BASE).toString();
     };
 
-    // Try a list of candidate relative paths and return the first one that exists.
+    // Try a list of candidate relative paths and return the first one that exists
     async function firstExistingAsset(relPaths) {
     for (const rel of relPaths) {
         const url = localAssetUrl(rel);
@@ -109,7 +109,7 @@
     return null;
     }
 
-    // Project folders contain 1,2,3,4... as .png/.jpg.
+    // Project folders contain images named 1,2,3,4... as .png/.jpg.
     async function fetchDirImages(folderName, { max = 30, stopAfterMisses = 2 } = {}) {
     if (!folderName) return [];
 
@@ -135,7 +135,7 @@
     return out;
     }
 
-    // Cover images have hardcoded names; we just try common extensions.
+    // Cover images have hardcoded names.
     async function resolveCoverImages() {
     const home = await firstExistingAsset([
         "media/CoverImages/IMG_0081.jpg",
@@ -231,7 +231,7 @@
             <img
             src={poster}
             alt="Video poster"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             onError={() => { if (poster !== posters.hq) setPoster(posters.hq); }}
             />
             <div className="absolute inset-0 bg-black/25" />
@@ -262,7 +262,7 @@
 
       useEffect(() => {
         (async () => {
-          // resolve covers + resume
+          // resolve covers & resume
           const [covers, resume] = await Promise.all([
             resolveCoverImages(),
             resolveResumePdf()
@@ -375,11 +375,11 @@
         <div className="min-h-screen selection:bg-green-900/40">
           <nav className="fixed top-0 w-full z-40 glass border-b border-white/5">
             <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-              <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center gap-3">
                 <span className="text-xl font-bold tracking-tighter uppercase">
-                  BENJAMIN<span className="text-green-700"> RIMON</span>
+                    BENJAMIN<span className="text-green-700"> RIMON</span>
                 </span>
-              </div>
+                </div>
               <div className="flex gap-10 text-[10px] font-bold uppercase tracking-[0.2em]">
                 {["home", "featured", "archive", "about"].map((tab) => (
                   <button
@@ -575,192 +575,207 @@
                 <button onClick={closeProject} className="absolute top-8 right-8 z-10 p-3 bg-black/50 hover:bg-white/10 text-white rounded-full transition-all border border-white/5">
                   <Icon name="x" />
                 </button>
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                  {/* LEFT COLUMN: media, thumbnails, case study */}
-                  <div className="bg-black/20 flex flex-col">
-                    <div className="w-full aspect-video flex items-center justify-center overflow-hidden bg-zinc-950">
-                      {activeItem?.type === "youtube" ? (
-                        <YouTubeEmbed videoUrl={activeItem.url} />
-                      ) : (
-                        <img
-                          src={activeItem?.src || selectedProject.image || coverHome || ""}
-                          className="w-full h-full object-cover animate-in fade-in duration-500"
-                          key={activeItemIndex}
-                          alt="Project media"
-                        />
-                      )}
-                    </div>
+                <div className="grid grid-cols-1">
+                    {/* MEDIA */}
+                    <div className="bg-black/20">
+                        {/* Hero container: big, but never full-screen */}
+                        <div className="relative w-full h-[54vh] min-h-[240px] max-h-[520px] flex items-center justify-center overflow-hidden bg-zinc-950">
+                        {activeItem?.type === "youtube" ? (
+                            <YouTubeEmbed videoUrl={activeItem.url} />
+                        ) : (
+                            <img
+                            src={activeItem?.src || selectedProject.image || coverHome || ""}
+                            className="w-full h-full object-contain animate-in fade-in duration-500"
+                            key={activeItemIndex}
+                            alt="Project media"
+                            />
+                        )}
+                        </div>
 
-                    <div className="p-6 flex gap-4 w-full overflow-x-auto bg-black/40">
-                      {(selectedProject.galleryItems?.length ? selectedProject.galleryItems : []).map((item, idx) => {
-                        const isActive = activeItemIndex === idx;
-                        const thumbStyle = `w-24 h-16 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all ${
-                          isActive ? "border-green-600 scale-105 shadow-lg shadow-green-900/20" : "border-transparent opacity-40 hover:opacity-100"
-                        }`;
 
-                        if (item.type === "youtube") {
-                          const posters = youtubePosterUrls(item.url);
-                          return (
-                            <button key={idx} onClick={() => setActiveItemIndex(idx)} className={thumbStyle} title="Video">
-                              <img
-                                src={posters?.hq || ""}
-                                className="w-full h-full object-cover"
-                                alt="Video thumbnail"
-                              />
+                        {/* Thumbnails row */}
+                        <div className="p-6 flex gap-4 w-full overflow-x-auto bg-black/40">
+                        {(selectedProject.galleryItems?.length ? selectedProject.galleryItems : []).map((item, idx) => {
+                            const isActive = activeItemIndex === idx;
+                            const thumbStyle = `w-24 h-16 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all ${
+                            isActive ? "border-green-600 scale-105 shadow-lg shadow-green-900/20" : "border-transparent opacity-40 hover:opacity-100"
+                            }`;
+
+                            if (item.type === "youtube") {
+                            const posters = youtubePosterUrls(item.url);
+                            return (
+                                <button key={idx} onClick={() => setActiveItemIndex(idx)} className={thumbStyle} title="Video">
+                                <img
+                                    src={posters?.hq || ""}
+                                    className="w-full h-full object-cover"
+                                    alt="Video thumbnail"
+                                />
+                                </button>
+                            );
+                            }
+
+                            return (
+                            <button key={idx} onClick={() => setActiveItemIndex(idx)} className={thumbStyle}>
+                                <img src={item.src} className="w-full h-full object-cover" alt="thumbnail" />
                             </button>
-                          );
-                        }
-
-                        return (
-                          <button key={idx} onClick={() => setActiveItemIndex(idx)} className={thumbStyle}>
-                            <img src={item.src} className="w-full h-full object-cover" alt="thumbnail" />
-                          </button>
-                        );
-                      })}
+                            );
+                        })}
+                        </div>
                     </div>
 
-                    {/* CASE STUDY (optional per project) */}
+                    {/* PROJECT DETAILS */}
+                    <div className="p-8 lg:p-14">
+                        <div className="mb-10">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="min-w-0">
+                            <h2 className="text-5xl font-black mb-3 tracking-tighter uppercase break-words">
+                            {selectedProject.title}
+                            </h2>
+                            <p className="text-green-700 font-bold uppercase tracking-widest text-xs">
+                            {selectedProject.context}
+                            </p>
+                        </div>
+
+                        {selectedProject.links?.itch && (
+                            <a
+                            href={selectedProject.links.itch}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="shrink-0 bg-green-900 text-white font-bold px-6 py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-green-800 transition-all uppercase tracking-widest text-[9px]"
+                            >
+                            <Icon name="play" size={14} /> Play on Itch.io
+                            </a>
+                        )}
+                        </div>
+
+                        <div className="mb-8" />
+
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-[12px] font-bold uppercase tracking-widest mb-10 border-y border-white/5 py-8">
+                            <div className="flex items-center gap-3"><Icon name="layers" size={16} className="text-green-700" /> {selectedProject.engine}</div>
+                            <div className="flex items-center gap-3"><Icon name="users" size={16} className="text-green-700" /> {selectedProject.team || "—"}</div>
+                            <div className="flex items-center gap-3"><Icon name="clock" size={16} className="text-green-700" /> {selectedProject.scope}</div>
+                            <div className="flex items-center gap-3"><Icon name="calendar" size={16} className="text-green-700" /> {selectedProject.year}</div>
+                        </div>
+
+                        <p className="text-zinc-400 leading-relaxed text-lg mb-12 font-light">{selectedProject.longDescription}</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                            <div className="space-y-12">
+                            <div>
+                                <h4 className="text-[10px] font-bold uppercase text-green-700 mb-6 tracking-[0.2em]">Roles & Responsibilities</h4>
+                                <ul className="space-y-4">
+                                {(selectedProject.roles || []).map(r => (
+                                    <li key={r} className="text-sm text-zinc-400 flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5 shrink-0" />
+                                    <span className="leading-tight">{r}</span>
+                                    </li>
+                                ))}
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 className="text-[10px] font-bold uppercase text-green-700 mb-6 tracking-[0.2em]">Features Implemented</h4>
+                                <ul className="space-y-4">
+                                {(selectedProject.features || []).map(f => (
+                                    <li key={f} className="text-sm text-zinc-400 flex items-start gap-3">
+                                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5 shrink-0" />
+                                    <span className="leading-tight">{f}</span>
+                                    </li>
+                                ))}
+                                </ul>
+                            </div>
+                            </div>
+
+                            <div>
+                            <h4 className="text-[10px] font-bold uppercase text-green-700 mb-6 tracking-[0.2em]">Skills Learned & Tools Used</h4>
+                            <div className="flex flex-wrap gap-2">
+                                {(selectedProject.skills || []).map(s => (
+                                <span key={s} className="px-3 py-1.5 bg-green-950/10 text-green-600 text-[9px] rounded-lg border border-green-900/20 font-bold uppercase tracking-wider">
+                                    {s}
+                                </span>
+                                ))}
+                            </div>
+                            </div>
+                        </div>
+
+                        {selectedProject.links && (selectedProject.links.download) && (
+                        <div className="flex flex-wrap gap-4 pt-10 border-t border-white/5">
+                            {selectedProject.links.download && (
+                            <a
+                                href={selectedProject.links.download}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="flex-1 min-w-[140px] bg-white/5 text-zinc-300 font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/10 border border-white/10 transition-all uppercase tracking-widest text-[9px]"
+                            >
+                                <Icon name="download" size={14} /> Download
+                            </a>
+                            )}
+                        </div>
+                        )}
+
+                        </div>
+                    </div>
+
+                    {/* CASE STUDY */}
                     {selectedProject.caseStudy && (
-                      <div className="p-8 border-t border-white/5">
+                        <div className="p-8 lg:p-14 border-t border-white/5 bg-black/10">
                         <div className="flex items-center justify-between gap-4 mb-4">
-                          <h3 className="text-[11px] font-bold uppercase tracking-[0.35em] text-green-700">
+                            <h3 className="text-[11px] font-bold uppercase tracking-[0.35em] text-green-700">
                             Case Study
-                          </h3>
-                          <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
+                            </h3>
+                            <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
                             What I did & why
-                          </span>
+                            </span>
                         </div>
 
                         {selectedProject.caseStudy.tagline && (
-                          <p className="text-zinc-300 leading-relaxed font-light mb-8">
+                            <p className="text-zinc-300 leading-relaxed font-light mb-8">
                             {selectedProject.caseStudy.tagline}
-                          </p>
+                            </p>
                         )}
 
                         {selectedProject.caseStudy.designPillars?.length > 0 && (
-                          <div className="mb-10">
+                            <div className="mb-10">
                             <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-4">
-                              Design Pillars
+                                Design Pillars
                             </h4>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              {selectedProject.caseStudy.designPillars.map((p, i) => (
+                                {selectedProject.caseStudy.designPillars.map((p, i) => (
                                 <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                                  <div className="text-sm font-bold text-zinc-100 mb-1">{p.title}</div>
-                                  <div className="text-sm text-zinc-400 leading-relaxed font-light">{p.detail}</div>
+                                    <div className="text-sm font-bold text-zinc-100 mb-1">{p.title}</div>
+                                    <div className="text-sm text-zinc-400 leading-relaxed font-light">{p.detail}</div>
                                 </div>
-                              ))}
+                                ))}
                             </div>
-                          </div>
+                            </div>
                         )}
 
                         {selectedProject.caseStudy.contributions?.length > 0 && (
-                          <div className="mb-10">
+                            <div className="mb-10">
                             <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 mb-4">
-                              Implementation Notes
+                                Implementation Notes
                             </h4>
                             <div className="space-y-6">
-                              {selectedProject.caseStudy.contributions.map((c, i) => (
+                                {selectedProject.caseStudy.contributions.map((c, i) => (
                                 <div key={i} className="bg-black/20 border border-white/10 rounded-2xl p-6">
-                                  <div className="text-base font-bold text-zinc-100 mb-3">{c.title}</div>
-                                  <ul className="space-y-3">
+                                    <div className="text-base font-bold text-zinc-100 mb-3">{c.title}</div>
+                                    <ul className="space-y-3">
                                     {(c.bullets || []).map((b, j) => (
-                                      <li key={j} className="text-sm text-zinc-400 flex items-start gap-3 leading-relaxed">
+                                        <li key={j} className="text-sm text-zinc-400 flex items-start gap-3 leading-relaxed">
                                         <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 shrink-0" />
                                         <span>{b}</span>
-                                      </li>
+                                        </li>
                                     ))}
-                                  </ul>
+                                    </ul>
                                 </div>
-                              ))}
+                                ))}
                             </div>
-                          </div>
+                            </div>
                         )}
-                      </div>
+                        </div>
                     )}
-                  </div>
-
-                  {/* RIGHT COLUMN: project detail content */}
-                  <div className="p-8 lg:p-14">
-                    <div className="mb-10">
-                      <h2 className="text-5xl font-black mb-3 tracking-tighter uppercase">{selectedProject.title}</h2>
-                      <p className="text-green-700 font-bold uppercase tracking-widest text-xs mb-8">{selectedProject.context}</p>
-
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-[12px] font-bold uppercase tracking-widest mb-10 border-y border-white/5 py-8">
-                        <div className="flex items-center gap-3"><Icon name="layers" size={16} className="text-green-700" /> {selectedProject.engine}</div>
-                        <div className="flex items-center gap-3"><Icon name="users" size={16} className="text-green-700" /> {selectedProject.team || "—"}</div>
-                        <div className="flex items-center gap-3"><Icon name="clock" size={16} className="text-green-700" /> {selectedProject.scope}</div>
-                        <div className="flex items-center gap-3"><Icon name="calendar" size={16} className="text-green-700" /> {selectedProject.year}</div>
-                      </div>
-
-                      <p className="text-zinc-400 leading-relaxed text-lg mb-12 font-light">{selectedProject.longDescription}</p>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-                        <div className="space-y-12">
-                          <div>
-                            <h4 className="text-[10px] font-bold uppercase text-green-700 mb-6 tracking-[0.2em]">Roles & Responsibilities</h4>
-                            <ul className="space-y-4">
-                              {(selectedProject.roles || []).map(r => (
-                                <li key={r} className="text-sm text-zinc-400 flex items-start gap-3">
-                                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5 shrink-0" />
-                                  <span className="leading-tight">{r}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-
-                          <div>
-                            <h4 className="text-[10px] font-bold uppercase text-green-700 mb-6 tracking-[0.2em]">Features Implemented</h4>
-                            <ul className="space-y-4">
-                              {(selectedProject.features || []).map(f => (
-                                <li key={f} className="text-sm text-zinc-400 flex items-start gap-3">
-                                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full mt-1.5 shrink-0" />
-                                  <span className="leading-tight">{f}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-
-                        <div>
-                          <h4 className="text-[10px] font-bold uppercase text-green-700 mb-6 tracking-[0.2em]">Skills Learned & Tools Used</h4>
-                          <div className="flex flex-wrap gap-2">
-                            {(selectedProject.skills || []).map(s => (
-                              <span key={s} className="px-3 py-1.5 bg-green-950/10 text-green-600 text-[9px] rounded-lg border border-green-900/20 font-bold uppercase tracking-wider">
-                                {s}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {selectedProject.links && (selectedProject.links.itch || selectedProject.links.github || selectedProject.links.download || selectedProject.links.video) && (
-                        <div className="flex flex-wrap gap-4 pt-10 border-t border-white/5">
-                          {selectedProject.links.itch && (
-                            <a href={selectedProject.links.itch} target="_blank" rel="noreferrer" className="flex-1 min-w-[140px] bg-green-900 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-green-800 transition-all uppercase tracking-widest text-[9px]">
-                              <Icon name="play" size={14} /> Play on Itch.io
-                            </a>
-                          )}
-                          {selectedProject.links.github && (
-                            <a href={selectedProject.links.github} target="_blank" rel="noreferrer" className="flex-1 min-w-[140px] bg-white/5 text-zinc-300 font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/10 border border-white/10 transition-all uppercase tracking-widest text-[9px]">
-                              <Icon name="github" size={14} /> Repository
-                            </a>
-                          )}
-                          {selectedProject.links.download && (
-                            <a href={selectedProject.links.download} target="_blank" rel="noreferrer" className="flex-1 min-w-[140px] bg-white/5 text-zinc-300 font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/10 border border-white/10 transition-all uppercase tracking-widest text-[9px]">
-                              <Icon name="download" size={14} /> Download
-                            </a>
-                          )}
-                          {selectedProject.links.video && (
-                            <a href={selectedProject.links.video} target="_blank" rel="noreferrer" className="flex-1 min-w-[140px] bg-white/5 text-zinc-300 font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/10 border border-white/10 transition-all uppercase tracking-widest text-[9px]">
-                              <Icon name="video" size={14} /> YouTube Page
-                            </a>
-                          )}
-                        </div>
-                      )}
                     </div>
-                  </div>
-
-                </div>
               </div>
             </div>
           )}
